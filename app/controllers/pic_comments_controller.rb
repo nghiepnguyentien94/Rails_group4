@@ -25,10 +25,11 @@ class PicCommentsController < ApplicationController
   # POST /pic_comments.json
   def create
     @pic_comment = PicComment.new(pic_comment_params)
-
+    @pic_comment.user_id = current_user.id
     respond_to do |format|
       if @pic_comment.save
-        format.html { redirect_to @pic_comment, notice: 'Pic comment was successfully created.' }
+        url = "/pics/" + @pic_comment.pic_id.to_s
+        format.html { redirect_to url, notice: 'Pic comment was successfully created.' }
         format.json { render :show, status: :created, location: @pic_comment }
       else
         format.html { render :new }
